@@ -19,10 +19,18 @@
 			  updated-board (set-space board 4 2)]
 		    (is (= 2 (get-space updated-board 4)))))
 			
-	(testing "getting a board row"
-	    (let [board (gen-board)
-	          updated-board (set-space board 4 1)]
-	        (is (= [nil 1 nil] (get-row updated-board 1)))))
+	(testing "getting board rows"
+	    (let [board (-> (gen-board)
+    	                (set-space 0 0)
+    	                (set-space 1 0)
+    	                (set-space 2 1)
+    	                (set-space 3 1)
+    	                (set-space 4 1)
+    	                (set-space 5 0)
+    	                (set-space 6 0)
+    	                (set-space 7 1)
+    	                (set-space 8 0))]
+	        (is (= [[0 0 1] [1 1 0] [0 1 0]] (get-rows board)))))
 	
 	(testing "getting open spaces"
     	(let [board (-> (gen-board)

@@ -13,9 +13,8 @@
 (defn get-space [board space]
 	(nth board space))
 	
-(defn get-row [board row]
-    (def start (* width row))
-    (subvec board start (+ width start)))
+(defn get-rows [board]
+    (partition width board))
 
 (defn get-open-spaces [board]
     (keep-indexed #(when (nil? %2) %1) board))
