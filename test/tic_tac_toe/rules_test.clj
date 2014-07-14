@@ -54,4 +54,27 @@
 		                (set-space 7 1))]
 			(is (not (horizontal-winner? board)))))
 
+    (testing "board has upward diagonal winner"
+        (let [board (-> (gen-board)
+                        (set-space 2 0)
+                        (set-space 4 0)
+                        (set-space 6 0))]
+            (is (diagonal-winner? board)))
+        (let [board (-> (gen-board)
+                        (set-space 2 1)
+                        (set-space 4 1)
+                        (set-space 6 1))]
+            (is (diagonal-winner? board))))
+            
+    (testing "board has downward diagonal winner"
+        (let [board (-> (gen-board)
+                        (set-space 0 0)
+                        (set-space 4 0)
+                        (set-space 8 0))]
+            (is (diagonal-winner? board)))
+        (let [board (-> (gen-board)
+                        (set-space 0 1)
+                        (set-space 4 1)
+                        (set-space 8 1))]
+            (is (diagonal-winner? board))))
 )
