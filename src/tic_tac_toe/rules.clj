@@ -23,3 +23,8 @@
         
     (or (winner? upward-diag)
         (winner? downward-diag)))
+        
+(defn game-over? [board]
+    (or (horizontal-winner? board)
+        (diagonal-winner? board)
+        (count (get-open-spaces board))))
