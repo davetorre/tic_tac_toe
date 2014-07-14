@@ -5,8 +5,8 @@
 (deftest board-test
 	(testing "creating a new board"
 		(let [expected-board [nil nil nil
-							nil nil nil
-							nil nil nil]]
+							  nil nil nil
+							  nil nil nil]]
 			(is (= expected-board (gen-board)))))
 			
 	(testing "setting a board space"

@@ -1,5 +1,7 @@
 (ns tic-tac-toe.board)
 
+(def width 3)
+
 (defn gen-board []
 	[nil nil nil
 	 nil nil nil
@@ -12,6 +14,6 @@
 	(nth board space))
 	
 (defn get-row [board row]
-    (def start (* 3 row))
-    (subvec board start (+ 3 start))
+    (def start (* width row))
+    (subvec board start (+ width start))
 )
