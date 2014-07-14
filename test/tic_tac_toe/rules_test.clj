@@ -52,5 +52,6 @@
 			(is (not (horizontal-winner? board))))
 		(let [board (-> (gen-board)
 		                (set-space 7 1))]
-			(is (not (horizontal-winner? board))))) 		
+			(is (not (horizontal-winner? board)))))
+
 )

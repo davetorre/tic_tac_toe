@@ -15,5 +15,7 @@
 	
 (defn get-row [board row]
     (def start (* width row))
-    (subvec board start (+ width start))
-)
+    (subvec board start (+ width start)))
+
+(defn get-open-spaces [board]
+    (keep-indexed #(when (nil? %2) %1) board))
