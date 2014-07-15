@@ -7,21 +7,19 @@
 			(every? #(= %1 1) row))))
 
 (defn horizontal-winner? [board]
-	(def rows (get-rows board))
-	(contains? (set (map winner? rows)) true))
+	(let [rows (get-rows board)]
+	    (contains? (set (map winner? rows)) true)))
 			
 (defn vertical-winner? [board]
-    (def columns (get-columns board))
-    (contains? (set (map winner? columns)) true))
+    (let [columns (get-columns board)]
+        (contains? (set (map winner? columns)) true)))
 			
 (defn diagonal-winner? [board]
-	(def upward-diag 
-		(keep-indexed #(when (contains? #{2 4 6} %1) %2) board))
-	(def downward-diag 
-		(keep-indexed #(when (contains? #{0 4 8} %1) %2) board))  
+	(let [upward-diag (keep-indexed #(when (contains? #{2 4 6} %1) %2) board)
+	      downward-diag (keep-indexed #(when (contains? #{0 4 8} %1) %2) board)] 
 		
-	(or (winner? upward-diag)
-		(winner? downward-diag)))
+	    (or (winner? upward-diag)
+		    (winner? downward-diag))))
 		
 (defn game-over? [board]
 	(or (horizontal-winner? board)
