@@ -23,5 +23,6 @@
 		
 (defn game-over? [board]
 	(or (horizontal-winner? board)
+	    (vertical-winner? board)
 		(diagonal-winner? board)
-		(count (get-open-spaces board))))
+		(= 0 (count (get-open-spaces board)))))

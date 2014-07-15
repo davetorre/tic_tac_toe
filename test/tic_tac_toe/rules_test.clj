@@ -53,6 +53,10 @@
 		(let [board (board-with-spaces [0 1 2] 1)]
 			(is (game-over? board))))
 			
+	(testing "game is over with vertical winner"
+		(let [board (board-with-spaces [0 3 6] 1)]
+			(is (game-over? board))))
+			
 	(testing "game is over with diagonal winner"
 		(let [board (board-with-spaces [0 4 8] 1)]
 			(is (game-over? board))))
@@ -69,5 +73,8 @@
 						(set-space 7 1)
 						(set-space 8 0))]
 			(is (game-over? board))))
-			
+	
+	(testing "game is not over with empty board"
+	    (let [board (gen-board)]
+	        (is (not (game-over? board)))))
 )
