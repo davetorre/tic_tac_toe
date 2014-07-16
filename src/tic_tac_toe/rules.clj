@@ -1,10 +1,9 @@
 (ns tic-tac-toe.rules
 	(require [tic-tac-toe.board :refer :all]))
 
-(defn winner? [row]
-	(and (= width (count row))	
-		(or (every? #(= %1 0) row)
-			(every? #(= %1 1) row))))
+(defn winner? [row]	
+	(or (every? #(= %1 0) row)
+		(every? #(= %1 1) row)))
 
 (defn horizontal-winner? [board]
 	(let [rows (get-rows board)]
