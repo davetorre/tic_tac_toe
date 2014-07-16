@@ -15,11 +15,8 @@
         (contains? (set (map winner? columns)) true)))
 			
 (defn diagonal-winner? [board]
-	(let [upward-diag (keep-indexed #(when (contains? #{2 4 6} %1) %2) board)
-	      downward-diag (keep-indexed #(when (contains? #{0 4 8} %1) %2) board)] 
-		
-	    (or (winner? upward-diag)
-		    (winner? downward-diag))))
+    (let [diagonals (get-diagonals board)]
+	    (contains? (set (map winner? diagonals)) true)))
 		
 (defn game-over? [board]
 	(or (horizontal-winner? board)

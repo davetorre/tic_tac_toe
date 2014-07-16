@@ -19,7 +19,7 @@
 			  updated-board (set-space board 4 2)]
 			(is (= 2 (get-space updated-board 4)))))
 			
-	(testing "getting board rows and columns"
+	(testing "getting board rows, columns and diagonals"
 		(let [board (-> (gen-board)
 						(set-space 0 0)
 						(set-space 1 0)
@@ -31,7 +31,8 @@
 						(set-space 7 1)
 						(set-space 8 0))]
 			(is (= [[0 0 1] [1 1 0] [0 1 0]] (get-rows board)))
-			(is (= [[0 1 0] [0 1 1] [1 0 0]] (get-columns board)))))
+			(is (= [[0 1 0] [0 1 1] [1 0 0]] (get-columns board)))
+			(is (= [[1 1 0] [0 1 0]] (get-diagonals board)))))
 	
 	(testing "getting open spaces"
 		(let [board (-> (gen-board)

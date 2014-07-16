@@ -77,4 +77,5 @@
 	(testing "game is not over with empty board"
 	    (let [board (gen-board)]
 	        (is (not (game-over? board)))))
+	        
 )
