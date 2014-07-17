@@ -88,4 +88,13 @@
 	    (let [board (gen-board)]
 	        (is (not (game-over? board)))))
 	        
+    (testing "play-game should result in a full board"
+        (let [full-board (play-game (gen-board))]
+
+            (is (= (num-open-spaces full-board) 0))))
+
+    (testing "play-game starting with an empty board should not have a winner"
+        (let [full-board (play-game (gen-board))]
+
+            (is (not (has-winner? full-board)))))
 )

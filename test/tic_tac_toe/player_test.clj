@@ -15,7 +15,7 @@
 
     (testing "player makes move in last free space in board"
         (let [board (board-with-spaces [0 1 2 3 4 5 6 7] 0)]
-            (is (= (count (get-open-spaces (make-move board))) 0))))
+            (is (= (num-open-spaces (make-move board)) 0))))
     
     (testing "player makes move with correct token (X)"
         (let [x-turn-board (gen-board)
@@ -28,7 +28,5 @@
               y-turn-result (make-move y-turn-board)]
               
             (is (= (occurences y-turn-result 1) 1))))
-        
-            
-            
+                    
 )

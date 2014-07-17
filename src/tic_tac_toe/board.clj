@@ -42,3 +42,6 @@
 
 (defn get-open-spaces [board]
 	(keep-indexed #(when (nil? %2) %1) board))
+	
+(defn num-open-spaces [board]
+    (count (filter nil? board)))
