@@ -1,10 +1,7 @@
 (ns tic-tac-toe.rules-test
 	(require [tic-tac-toe.board :refer :all]
-					 [tic-tac-toe.rules :refer :all]
-					 [clojure.test		:refer :all]))
-
-(defn board-with-spaces [spaces, player]
-    (reduce #(set-space %1 %2 player) (gen-board) spaces))
+			 [tic-tac-toe.rules :refer :all]
+			 [clojure.test		:refer :all]))
 
 (defn cat-board []
     (-> (gen-board)

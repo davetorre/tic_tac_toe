@@ -9,10 +9,13 @@
 	[nil nil nil
 	 nil nil nil
 	 nil nil nil])
-	
-(defn set-space [board space player]
-	(assoc board space player))
-	
+         	
+(defn set-space [board space token]
+	(assoc board space token))
+
+(defn board-with-spaces [spaces, player]
+    (reduce #(set-space %1 %2 player) (gen-board) spaces))
+                	
 (defn get-space [board space]
 	(nth board space))
 	
