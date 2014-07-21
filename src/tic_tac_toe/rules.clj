@@ -1,36 +1,26 @@
 (ns tic-tac-toe.rules
-	(require [tic-tac-toe.board :refer :all])
-	(require [tic-tac-toe.player :refer :all]))
+	(:require [tic-tac-toe.board :refer :all]))
 
 (defn winning-line? [line]	
 	(or (every? #(= %1 0) line)
 		(every? #(= %1 1) line)))
 
-(defn horizontal-winner? [board]
-	(let [rows (get-rows board)]
-	    (contains? (set (map winning-line? rows)) true)))
-			
-(defn vertical-winner? [board]
-    (let [columns (get-columns board)]
-        (contains? (set (map winning-line? columns)) true)))
-			
-(defn diagonal-winner? [board]
-    (let [diagonals (get-diagonals board)]
-	    (contains? (set (map winning-line? diagonals)) true)))
-		
-(defn has-winner? [board]
-    (or (horizontal-winner? board)
-        (vertical-winner? board)
-        (diagonal-winner? board)))
+(defn winner? [line]
+    (cond 
+        (every? #(= % 0) line) 0
+        (every? #(= % 1) line) 1
+        :else nil))
 
-(defn game-over? [board]
-	(or (horizontal-winner? board)
-	    (vertical-winner? board)
-		(diagonal-winner? board)
-		(= 0 (num-open-spaces board))))
-		
-(defn play-game [board]
-    (loop [board board]
-        (if (= (num-open-spaces board) 0)
-            board
-            (recur (make-move board)))))
+(defn get-winner [board]
+    (let [row-winners (map winner? (get-rows board))
+          column-winners (map winner? (get-columns board))
+          diagonal-winners (map winner? (get-diagonals board))
+          winners (concat row-winners column-winners diagonal-winners)]
+        (first (filter identity winners))))
+
+(defn get-score [board]
+    (let [winner (get-winner board)]
+        (cond 
+            (not (= winner nil)) (if (= winner 0) 10 -10)                        
+            (= (count (get-open-spaces board)) 0) 0
+            :else nil)))

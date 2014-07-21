@@ -28,5 +28,14 @@
               y-turn-result (make-move y-turn-board)]
               
             (is (= (occurences y-turn-result 1) 1))))
-                    
+
+    (testing "play-game should result in a full board"
+        (let [full-board (play-game (gen-board))]
+
+            (is (= (num-open-spaces full-board) 0))))
+
+    (testing "play-game should not have a winner"
+        (let [full-board (play-game (gen-board))]
+
+            (is (nil? (get-winner full-board)))))                   
 )

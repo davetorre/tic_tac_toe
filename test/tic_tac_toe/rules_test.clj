@@ -16,85 +16,67 @@
 		(set-space 8 0)))
     
 (deftest rules-test
-	(testing "[1 1 1] in row has a horizontal winner"
+	(testing "[1 1 1] in row has correct winner"
 		(let [first-row-board (board-with-spaces [0 1 2] 1)
 			  second-row-board (board-with-spaces [3 4 5] 1)
 			  third-row-board (board-with-spaces [6 7 8] 1)
 			  boards [first-row-board second-row-board third-row-board]]
-			(is (every? horizontal-winner? boards))))
+			(every? #(= % 1) (map #(get-winner %) boards))))			
+
 			
-	(testing "[0 0 0] in row has a horizontal winner"
+	(testing "[0 0 0] in row has correct winner"
 		(let [first-row-board (board-with-spaces [0 1 2] 0)
 			  second-row-board (board-with-spaces [3 4 5] 0)
 			  third-row-board (board-with-spaces [6 7 8] 0)
 			  boards [first-row-board second-row-board third-row-board]]
-			(is (every? horizontal-winner? boards))))		
+			(every? #(= % 0) (map #(get-winner %) boards))))		
 	
-	(testing "[1 1 1] in column has a vertical winner"
+	(testing "[1 1 1] in column has correct winner"
 		(let [first-col-board (board-with-spaces [0 3 6] 1)
 			  second-col-board (board-with-spaces [1 4 7] 1)
 			  third-col-board (board-with-spaces [2 5 8] 1)
 			  boards [first-col-board second-col-board third-col-board]]
-			(is (every? vertical-winner? boards))))
+			(every? #(= % 1) (map #(get-winner %) boards))))		
 
-	(testing "[0 0 0] in column has a vertical winner"
+	(testing "[0 0 0] in column has correct winner"
 		(let [first-col-board (board-with-spaces [0 3 6] 0)
 			  second-col-board (board-with-spaces [1 4 7] 0)
 			  third-col-board (board-with-spaces [2 5 8] 0)
 			  boards [first-col-board second-col-board third-col-board]]
-			(is (every? vertical-winner? boards))))
-        	        
-	(testing "board has upward diagonal winner"
-		(let [upward-zeros (board-with-spaces [2 4 6] 0)
-			  upward-ones (board-with-spaces [2 4 6] 1)
-			  boards [upward-zeros upward-ones]]
-			(is (every? diagonal-winner? boards))))
-			
-	(testing "board has downward diagonal winner"
-		(let [downward-zeros (board-with-spaces [0 4 8] 0)
+  			(every? #(= % 0) (map #(get-winner %) boards))))		
+
+	(testing "[1 1 1] in diagonal has correct winner"
+		(let [upward-ones (board-with-spaces [2 4 6] 1)
 			  downward-ones (board-with-spaces [0 4 8] 1)
-			  boards [downward-zeros downward-ones]]
-			(is (every? diagonal-winner? boards))))
+			  boards [upward-ones downward-ones]]
+  			(every? #(= % 1) (map #(get-winner %) boards))))      	        
+
+	(testing "[0 0 0] in diagonal has correct winner"
+		(let [upward-zeros (board-with-spaces [2 4 6] 0)
+		      downward-zeros (board-with-spaces [0 4 8] 0)
+			  boards [upward-zeros downward-zeros]]
+    		(every? #(= % 0) (map #(get-winner %) boards))))      	        
 			
 	(testing "empty board does not have any winners"
 		(let [board (gen-board)]
-			(is (not (horizontal-winner? board)))
-			(is (not (vertical-winner? board)))
-			(is (not (diagonal-winner? board)))))
+			(is (nil? (get-winner board)))))
 			
 	(testing "cat board does not have any winners"
 		(let [board (cat-board)]
-			(is (not (horizontal-winner? board)))
-			(is (not (vertical-winner? board)))
-			(is (not (diagonal-winner? board))))) 
-			      			
-	(testing "game is over with horizontal winner"
-		(let [board (board-with-spaces [0 1 2] 1)]
-			(is (game-over? board))))
-			
-	(testing "game is over with vertical winner"
-		(let [board (board-with-spaces [0 3 6] 1)]
-			(is (game-over? board))))
-			
-	(testing "game is over with diagonal winner"
-		(let [board (board-with-spaces [0 4 8] 1)]
-			(is (game-over? board))))
-			
-	(testing "game is over with cat board"
-		(let [board (cat-board)]
-			(is (game-over? board))))
-	
-	(testing "game is not over with empty board"
-	    (let [board (gen-board)]
-	        (is (not (game-over? board)))))
-	        
-    (testing "play-game should result in a full board"
-        (let [full-board (play-game (gen-board))]
+			(is (nil? (get-winner board))))) 
 
-            (is (= (num-open-spaces full-board) 0))))
-
-    (testing "play-game starting with an empty board should not have a winner"
-        (let [full-board (play-game (gen-board))]
-
-            (is (not (has-winner? full-board)))))
+    (testing "if X wins, score is 10"
+        (let [board (board-with-spaces [2 4 6] 0)]
+            (is (= (get-score board) 10))))
+            
+    (testing "if O wins, score is -10"
+        (let [board (board-with-spaces [0 4 8] 1)]
+            (is (= (get-score board) -10))))
+            
+    (testing "cat board's score is 0"
+        (let [board (cat-board)]
+            (is (= (get-score board) 0))))
+            
+    (testing "empty board's score is nil"
+        (is (nil? (get-score (gen-board)))))
 )
