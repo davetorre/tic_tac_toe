@@ -11,9 +11,28 @@
         (if (<= x-count y-count)
             0
             1)))             
+      
+(defn get-smart-move [board]
+    (if (not (nil? (get-score board)))
+        [nil (get-score board)]
+        (let [moves (get-open-spaces board)
+              token (get-token board)
+              boards (map #(set-space board % token) moves)
+              results (map get-smart-move boards)
+              scores (map #(second %) results)
+              max-score (apply max scores)
+              max-index (.indexOf scores max-score)
+              min-score (apply min scores)
+              min-index (.indexOf scores min-score)]
             
+            (if (= token 0)
+                [(get (vec moves) max-index) max-score]
+                [(get (vec moves) min-index) min-score]))))
+                             
 (defn make-move [board]
-    (assoc board (first (get-open-spaces board)) (get-token board)))     
+    (let [move (first (get-smart-move board))
+          token (get-token board)]
+        (set-space board move token)))
 
 (defn play-game [board]
     (loop [board board]
