@@ -12,6 +12,13 @@
             0
             1)))             
       
+(defn do-weighting [score]
+    (cond 
+        (> score 0) (dec score)
+        (< score 0) (inc score)
+        :else 0))
+        
+      
 (defn get-smart-move [board]
     (if (game-over? board)
         [nil (get-score board)]
@@ -20,10 +27,11 @@
               boards (map #(set-space board % token) moves)
               results (map get-smart-move boards)
               scores (map #(second %) results)
-              max-score (apply max scores)
-              max-index (.indexOf scores max-score)
-              min-score (apply min scores)
-              min-index (.indexOf scores min-score)]
+              weighted-scores (map do-weighting scores)
+              max-score (apply max weighted-scores)
+              max-index (.indexOf weighted-scores max-score)
+              min-score (apply min weighted-scores)
+              min-index (.indexOf weighted-scores min-score)]
             
             (if (= token 0)
                 [(get (vec moves) max-index) max-score]

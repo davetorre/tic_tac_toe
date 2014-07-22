@@ -41,8 +41,10 @@
 ;            (is (= (num-open-spaces full-board) 0))
 ;            (is (nil? (get-winner full-board)))))
             
-;    (testing "if possible, smart-move should result in a win"
-;	    (let [board (-> (gen-board)
-;					    (set-spaces [1 3 5] 0)
-;					    (set-spaces [0 4] 1))]
+    (testing "if possible, smart-move should result in a win"
+	    (let [board (-> (gen-board)
+					    (set-spaces [1 3 5] 0)
+					    (set-spaces [0 4] 1))]
+					    
+			(is (game-over? (make-move board)))))
 )
