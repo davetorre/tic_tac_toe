@@ -1,7 +1,7 @@
 (ns tic-tac-toe.board-test
 	(require [tic-tac-toe.board :refer :all]
 			 [clojure.test		:refer :all]))
-					
+          							
 (deftest board-test
 	(testing "creating a new board"
 		(let [expected-board [nil nil nil
@@ -21,15 +21,9 @@
 			
 	(testing "getting board rows, columns and diagonals"
 		(let [board (-> (gen-board)
-						(set-space 0 0)
-						(set-space 1 0)
-						(set-space 2 1)
-						(set-space 3 1)
-						(set-space 4 1)
-						(set-space 5 0)
-						(set-space 6 0)
-						(set-space 7 1)
-						(set-space 8 0))]
+     	                (set-spaces [0 1 5 6 8] 0)
+     		            (set-spaces [2 3 4 7] 1))]
+     		            
 			(is (= [[0 0 1] [1 1 0] [0 1 0]] (get-rows board)))
 			(is (= [[0 1 0] [0 1 1] [1 0 0]] (get-columns board)))
 			(is (= [[1 1 0] [0 1 0]] (get-diagonals board)))))

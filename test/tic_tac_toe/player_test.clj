@@ -6,12 +6,13 @@
 
 (deftest player-test
     
-    (testing "player makes one move in empty board"
-        (let [board (gen-board)
-              board-size (count board)
-              board-after-move (vec (make-move board))]
+    (testing "player makes one move in not-yet-finished game board"
+        (let [board (-> (gen-board)
+ 	                (set-spaces [0 1 5 6] 0)
+ 		            (set-spaces [2 3 4 7] 1))
+              result (make-move board)]
               
-            (is (= (count (filter nil? board-after-move)) (- board-size 1)))))
+            (is (= (- (num-open-spaces board) 1) (num-open-spaces result)))))
 
     (testing "player doesn't make move in finished game board"
         (let [board (board-with-spaces [0 1 2] 0)]
@@ -19,21 +20,29 @@
             (is (= board (make-move board)))))
     
     (testing "player makes move with correct token (X)"
-        (let [x-turn-board (gen-board)
-              x-turn-result (make-move x-turn-board)]
+        (let [board (-> (gen-board)
+     	                (set-spaces [0 1 5 6] 0)
+     		            (set-spaces [2 3 4 7] 1))
+              result (make-move board)]
 
-            (is (= (occurences x-turn-result 0) 1))))       
+            (is (= (+ (occurences board 0) 1) (occurences result 0)))))       
             
     (testing "player makes move with correct token (Y)"
-        (let [y-turn-board (board-with-spaces [0] 0)
-              y-turn-result (make-move y-turn-board)]
+        (let [board (-> (gen-board)
+     	                (set-spaces [0 1 5 6] 0)
+     		            (set-spaces [2 3 4] 1))
+              result (make-move board)]
               
-            (is (= (occurences y-turn-result 1) 1))))
+            (is (= (+ (occurences board 1) 1) (occurences result 1)))))
 
-    (testing "play-game should result in a full board, no winner"
-        (let [full-board (play-game (gen-board))]
+;    (testing "play-game should result in a full board, no winner"
+;        (let [full-board (play-game (gen-board))]
 
-            (is (= (num-open-spaces full-board) 0))
-            (is (nil? (get-winner full-board)))))
-                 
+;            (is (= (num-open-spaces full-board) 0))
+;            (is (nil? (get-winner full-board)))))
+            
+;    (testing "if possible, smart-move should result in a win"
+;	    (let [board (-> (gen-board)
+;					    (set-spaces [1 3 5] 0)
+;					    (set-spaces [0 4] 1))]
 )

@@ -5,16 +5,9 @@
 
 (defn cat-board []
     (-> (gen-board)
-		(set-space 0 0)
-		(set-space 1 0)
-		(set-space 2 1)
-		(set-space 3 1)
-		(set-space 4 1)
-		(set-space 5 0)
-		(set-space 6 0)
-		(set-space 7 1)
-		(set-space 8 0)))
-    
+  	    (set-spaces [0 1 5 6 8] 0)
+  		(set-spaces [2 3 4 7] 1)))
+              		    
 (deftest rules-test
 	(testing "[1 1 1] in row has correct winner"
 		(let [first-row-board (board-with-spaces [0 1 2] 1)

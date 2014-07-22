@@ -13,8 +13,11 @@
 (defn set-space [board space token]
 	(assoc board space token))
 
-(defn board-with-spaces [spaces, player]
-    (reduce #(set-space %1 %2 player) (gen-board) spaces))
+(defn board-with-spaces [spaces token]
+    (reduce #(set-space %1 %2 token) (gen-board) spaces))
+    
+(defn set-spaces [board spaces token]
+    (reduce #(set-space %1 %2 token) board spaces))
                 	
 (defn get-space [board space]
 	(nth board space))
