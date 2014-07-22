@@ -19,11 +19,15 @@
         (first (filter identity winners))))
 
 (defn get-score [board]
-    (let [winner (get-winner board)]
+    (let [winner (get-winner board)
+          score-value (+ (count board) 1)]
         (cond 
-            (not (= winner nil)) (if (= winner 0) 10 -10)                        
-            (= (count (get-open-spaces board)) 0) 0
-            :else nil)))
+            (not (nil? winner) 
+                (if (= winner 0) score-value (- score-value))                        
+            (= (count (get-open-spaces board)) 0) 
+                0
+            :else 
+                nil)))
             
 (defn game-over? [board]
     (not (nil? (get-score board))))
