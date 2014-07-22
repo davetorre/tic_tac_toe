@@ -22,7 +22,7 @@
     (let [winner (get-winner board)
           score-value (+ (count board) 1)]
         (cond 
-            (not (nil? winner) 
+            (not (nil? winner)) 
                 (if (= winner 0) score-value (- score-value))                        
             (= (count (get-open-spaces board)) 0) 
                 0

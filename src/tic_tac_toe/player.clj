@@ -18,7 +18,6 @@
         (< score 0) (inc score)
         :else 0))
         
-      
 (defn get-smart-move [board]
     (if (game-over? board)
         [nil (get-score board)]
