@@ -13,7 +13,7 @@
             1)))             
       
 (defn get-smart-move [board]
-    (if (not (nil? (get-score board)))
+    (if (game-over? board)
         [nil (get-score board)]
         (let [moves (get-open-spaces board)
               token (get-token board)
@@ -30,12 +30,14 @@
                 [(get (vec moves) min-index) min-score]))))
                              
 (defn make-move [board]
-    (let [move (first (get-smart-move board))
-          token (get-token board)]
-        (set-space board move token)))
+    (if (game-over? board)
+        board
+        (let [move (first (get-smart-move board))
+              token (get-token board)]
+            (set-space board move token))))
 
 (defn play-game [board]
     (loop [board board]
-        (if (= (num-open-spaces board) 0)
+        (if (game-over? board)
             board
             (recur (make-move board)))))

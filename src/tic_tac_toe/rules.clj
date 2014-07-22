@@ -24,3 +24,6 @@
             (not (= winner nil)) (if (= winner 0) 10 -10)                        
             (= (count (get-open-spaces board)) 0) 0
             :else nil)))
+            
+(defn game-over? [board]
+    (not (nil? (get-score board))))
