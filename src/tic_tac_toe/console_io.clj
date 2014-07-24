@@ -4,7 +4,7 @@
               [tic-tac-toe.player :refer :all]))
               
 (defn prompt [question]
-    (print question)
+    (println question)
     (read-line))
     
 (defn get-human-move [board]
@@ -15,4 +15,17 @@
             (let [move (Integer/parseInt user-input)
                   token (get-token board)]    
                 (set-space board move token))
-            board)))
+            (get-human-move board))))
+            
+(defn human-goes-first? []
+    (let [answer (prompt "Would you like to go first? (y/n)")
+          yeses #{"y" "Y" "Yes" "YES" "yes"}
+          noes  #{"n" "N" "No"  "NO"  "no"}]
+          
+        (cond
+            (contains? yeses answer) true
+            (contains? noes answer) false
+            :else (human-goes-first?))))
+         
+        
+(defn -main [& args])

@@ -10,13 +10,17 @@
     
 (defn get-prompt-output [answer]
     (with-in-str answer (prompt "--")))
-			 
+
+(defn make-input-sequence [coll]
+    (apply str (interleave coll (repeat "\n"))))
+      			 
 (deftest console-io-test
 
     (testing "prompt prints out its question argument"
-        (let [questions ["Hello!" "Have you ever transcended space and time?"]]
+        (let [questions ["Hello!" "Have you ever transcended space and time?"]
+              questions-w-newline (map #(str % "\n") questions)]
         
-            (is (= (map #(get-prompt-print-out %) questions) questions))))
+            (is (= (map #(get-prompt-print-out %) questions) questions-w-newline))))
 
     (testing "prompt outputs the user's answer"
         (let [answers ["Hi" "5"]]
@@ -35,14 +39,22 @@
       						  (set-space 0 0)
       						  (set-space 4 1))]
           
-            (is (= (with-in-str "4" (get-human-move board)) board-after))))
-            
-    (testing "get-human-move returns unchanged board on bad user input"
+            (is (= (with-in-str "4" (get-human-move board)) board-after))))    
+    
+    (testing "get-human-move asks until receiving valid move"
         (let [board (board-with-spaces [5] 0)
-              bad-inputs ["5" "should not work"] 
-              outputs (map #(with-in-str % (get-human-move board)) bad-inputs)]
-              
-            (is (every? #(= % board) outputs))))
+              input-sequence (make-input-sequence ["5" "not valid" "8"]) 
+              result (set-space board 8 1)]
+            
+            (is (= (with-in-str input-sequence (get-human-move board)) result)))) 
     
-    
+    (testing "human-goes-first? returns true if user responds Y"
+        (is (with-in-str "Y" (human-goes-first?))))
+        
+    (testing "human-goes-first? returns false if user responds N"
+        (is (not (with-in-str "N" (human-goes-first?)))))
+            
+    (testing "human-goes-first? asks until receiving valid answer"
+        (is (with-in-str "nobody\n27\nY" (human-goes-first?))))
+
 )
