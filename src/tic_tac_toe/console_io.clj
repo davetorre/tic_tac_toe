@@ -4,11 +4,15 @@
               [tic-tac-toe.player :refer :all]))
               
 (defn prompt [question]
-    (println question)
+    (print question)
     (read-line))
     
 (defn get-human-move [board]
-    (let [move (Integer/parseInt (prompt "What's your move?"))
-          token (get-token board)]
-          
-        (set-space board move token)))
+    (let [user-input (prompt "What's your move?")
+          open-spaces-strings (map #(str %) (get-open-spaces board))]
+        
+        (if (contains? (set open-spaces-strings) user-input)
+            (let [move (Integer/parseInt user-input)
+                  token (get-token board)]    
+                (set-space board move token))
+            board)))
