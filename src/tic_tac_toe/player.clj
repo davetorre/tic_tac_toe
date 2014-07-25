@@ -1,7 +1,7 @@
 (ns tic-tac-toe.player
-	(:require [tic-tac-toe.board :refer :all]
+    (:require [tic-tac-toe.board :refer :all]
               [tic-tac-toe.rules :refer :all]))
-	
+    
 (defn occurences [board token]
     (count (filter #(= % token) board)))
            

@@ -1,9 +1,9 @@
 (ns tic-tac-toe.rules
-	(:require [tic-tac-toe.board :refer :all]))
+    (:require [tic-tac-toe.board :refer :all]))
 
-(defn winning-line? [line]	
-	(or (every? #(= %1 0) line)
-		(every? #(= %1 1) line)))
+(defn winning-line? [line]  
+    (or (every? #(= %1 0) line)
+        (every? #(= %1 1) line)))
 
 (defn winner? [line]
     (cond 
