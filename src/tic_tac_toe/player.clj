@@ -42,9 +42,3 @@
         (let [move (first (get-smart-move board))
               token (get-token board)]
             (set-space board move token))))
-
-(defn play-game [board]
-    (loop [board board]
-        (if (game-over? board)
-            board
-            (recur (make-move board)))))

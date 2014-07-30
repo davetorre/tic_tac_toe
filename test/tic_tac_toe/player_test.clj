@@ -4,6 +4,12 @@
              [tic-tac-toe.player :refer :all]
              [clojure.test       :refer :all]))
 
+(defn play-game [board]
+    (loop [board board]
+        (if (game-over? board)
+            board
+            (recur (make-move board)))))
+                         
 (deftest player-test
     
     (testing "player makes one move in not-yet-finished game board"
