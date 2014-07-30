@@ -17,9 +17,15 @@
 (defn prompt [io question]
     (io-print io question)
     (io-read io))
+ 
+(defn get-player-string [token]
+    (cond 
+        (= token 0) "X"
+        (= token 1) "O"
+        :else "-"))
     
 (defn print-board [io board]
-    (let [nice-board (replace {nil "-" 0 "X" 1 "O"} board)
+    (let [nice-board (map #(get-player-string %) board)
           nice-rows (vec (get-rows nice-board))]
 
         (doall (map #(io-print io %) nice-rows))))
@@ -45,12 +51,19 @@
             (contains? noes answer) false
             :else (human-goes-first?))))
 
+(defn print-game-result [io board]
+    (let [token (get-winner board)
+          player (get-player-string token)]
+        (if token
+            (io-print io (str "Game over. " player " wins!"))
+            (io-print io "Game over. Draw."))))
+        
 (defn game-loop [io board turn]
     (if (= turn :human)
         (print-board io board))
 
     (if (game-over? board)
-        (io-print io "Game over. Bye!")
+        (print-game-result io board)
         (if (= turn :human)
             (game-loop io (get-human-move io board) :cpu)
             (game-loop io (make-move board) :human))))  

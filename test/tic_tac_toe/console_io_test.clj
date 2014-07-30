@@ -3,6 +3,7 @@
              [tic-tac-toe.rules      :refer :all]
              [tic-tac-toe.player     :refer :all]
              [tic-tac-toe.console-io :refer :all]
+             [tic-tac-toe.rules-test :refer :all]
              [clojure.test           :refer :all]))
              
 (deftype TestIO [input]
@@ -38,4 +39,21 @@
         (is (human-goes-first? (TestIO. "Y"))))
         
     (testing "human-goes-first? returns false if user responds N"
-        (is (not (human-goes-first? (TestIO. "N"))))))
+        (is (not (human-goes-first? (TestIO. "N")))))
+        
+    (testing "game-loop prints out winner if X wins"
+        (let [board (board-with-spaces [0 1 2] 0)
+              output "Game over. X wins!"
+              io (TestIO. "5")]
+            
+            (is (= (game-loop io board :cpu) output))))
+            
+    (testing "game-loop prints out 'Draw' if no winner"
+        (let [board (cat-board)
+              output "Game over. Draw."
+              io (TestIO. "0")]
+             
+            (is (= (game-loop io board :cpu) output)))))
+              
+              
+            
