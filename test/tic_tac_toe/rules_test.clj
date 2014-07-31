@@ -1,12 +1,8 @@
 (ns tic-tac-toe.rules-test
-    (require [tic-tac-toe.board :refer :all]
-             [tic-tac-toe.rules :refer :all]
-             [clojure.test      :refer :all]))
-
-(defn cat-board []
-    (-> (gen-board)
-        (set-spaces [0 1 5 6 8] 0)
-        (set-spaces [2 3 4 7] 1)))
+    (require [tic-tac-toe.board         :refer :all]
+             [tic-tac-toe.rules         :refer :all]
+             [tic-tac-toe.sample-boards :refer :all]
+             [clojure.test              :refer :all]))
                         
 (deftest rules-test
     (testing "[1 1 1] in row has correct winner"

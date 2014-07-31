@@ -45,7 +45,7 @@
               
             (is (= (+ (occurences board 1) 1) (occurences result 1)))))
 
-    (testing "Game of two MinMaxPlayers should result in a full board, no winner"
+    (testing "game of two MinMaxPlayers should result in a full board, no winner"
         (let [full-board (play-minmax-game (gen-board))]
 
             (is (= (num-open-spaces full-board) 0))

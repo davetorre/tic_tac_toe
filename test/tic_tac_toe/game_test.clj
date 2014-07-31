@@ -1,10 +1,10 @@
 (ns tic-tac-toe.game-test
-    (require [tic-tac-toe.io     :refer :all]
-             [tic-tac-toe.board  :refer :all]
-             [tic-tac-toe.player :refer :all]
-             [tic-tac-toe.game   :refer :all]
-             [tic-tac-toe.rules-test :refer :all]
-             [clojure.test           :refer :all]))
+    (require [tic-tac-toe.io            :refer :all]
+             [tic-tac-toe.board         :refer :all]
+             [tic-tac-toe.player        :refer :all]
+             [tic-tac-toe.game          :refer :all]
+             [tic-tac-toe.sample-boards :refer :all]
+             [clojure.test              :refer :all]))
                      
 (deftest game-test
             
