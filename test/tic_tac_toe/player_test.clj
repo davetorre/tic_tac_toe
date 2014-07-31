@@ -2,11 +2,10 @@
     (require [tic-tac-toe.board      :refer :all]
              [tic-tac-toe.rules      :refer :all]
              [tic-tac-toe.player     :refer :all]
-             [tic-tac-toe.console-io :refer :all]
              [clojure.test           :refer :all]))
 
 (defn make-minmax-move [board]
-    (make-move (new-minmax-player) (new-console-io) board))
+    (make-move (new-minmax-player) board))
 
 (defn play-minmax-game [board]
     (loop [board board]

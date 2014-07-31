@@ -42,17 +42,17 @@
             (Integer/parseInt user-input)
             (get-human-move io board))))
               
-(deftype HumanPlayer []
+(deftype HumanPlayer [io]
     Player
-    (make-move [this io board]
+    (make-move [this board]
         (if (game-over? board)
             board
             (let [move (get-human-move io board)
                   token (get-token board)]
                 (set-space board move token)))))
                  
-(defn new-human-player []
-    (HumanPlayer.))
+(defn new-human-player [io]
+    (HumanPlayer. io))
             
 (defn human-goes-first? [io]
     (let [answer (prompt io "Would you like to go first? (y/n)")
@@ -78,8 +78,8 @@
     (if (game-over? board)
         (print-game-result io board)
         (if (= turn :human)
-            (game-loop io (make-move (new-human-player) io board) :cpu)
-            (game-loop io (make-move (new-minmax-player) io board) :human))))  
+            (game-loop io (make-move (new-human-player io) board) :cpu)
+            (game-loop io (make-move (new-minmax-player) board) :human))))  
        
 (defn -main [& args]
     (let [io (new-console-io)]

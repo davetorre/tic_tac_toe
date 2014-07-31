@@ -13,7 +13,7 @@
             1)))             
  
 (defprotocol Player
-    (make-move [this io board]))
+    (make-move [this board]))
     
 (defn do-weighting [score]
     (cond 
@@ -41,7 +41,7 @@
     
 (deftype MinMaxPlayer []
     Player
-    (make-move [this io board]
+    (make-move [this board]
         (if (game-over? board)
             board
             (let [move (first (get-minmax-move board))

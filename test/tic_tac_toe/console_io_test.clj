@@ -24,7 +24,7 @@
               board-after (board-with-spaces [0] 0)
               io (TestIO. "0")]
               
-            (is (= (make-move (new-human-player) io board) board-after))))
+            (is (= (make-move (new-human-player io) board) board-after))))
     
     (testing "HumanPlayer marks user's move when going second"
         (let [board (board-with-spaces [0] 0)
@@ -33,7 +33,7 @@
                               (set-space 4 1))
               io (TestIO. "4")]
           
-            (is (= (make-move (new-human-player) io board) board-after))))
+            (is (= (make-move (new-human-player io) board) board-after))))
             
     (testing "human-goes-first? returns true if user responds Y"
         (is (human-goes-first? (TestIO. "Y"))))
