@@ -54,10 +54,23 @@
     (cond 
         (= token 0) "X"
         (= token 1) "O"
-        :else "-"))
-    
+        :else nil))
+        
+(defn replace-nils-with-indexes [board]
+    (let [board-map (map-indexed vector board)]
+        (map 
+            #(if (nil? (second %)) 
+                (first %)
+                (second %)) 
+            board-map)))
+        
+(defn get-nice-board [board]
+    (let [player-string-board (map #(get-player-string %) board)]
+        
+        (replace-nils-with-indexes player-string-board)))
+     
 (defn print-board [io board]
-    (let [nice-board (map #(get-player-string %) board)
+    (let [nice-board (get-nice-board board)
           nice-rows (vec (get-rows nice-board))]
 
         (doall (map #(io-print io %) nice-rows))))
