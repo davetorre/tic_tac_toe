@@ -1,8 +1,9 @@
 (ns tic-tac-toe.player-test
-    (require [tic-tac-toe.board      :refer :all]
-             [tic-tac-toe.rules      :refer :all]
-             [tic-tac-toe.player     :refer :all]
-             [clojure.test           :refer :all]))
+    (require [tic-tac-toe.io     :refer :all]
+             [tic-tac-toe.board  :refer :all]
+             [tic-tac-toe.rules  :refer :all]
+             [tic-tac-toe.player :refer :all]
+             [clojure.test       :refer :all]))
 
 (defn make-minmax-move [board]
     (make-move (new-minmax-player) board))
@@ -55,4 +56,20 @@
                         (set-spaces [1 3 5] 0)
                         (set-spaces [0 4] 1))]
                         
-            (is (game-over? (make-minmax-move board))))))
+            (is (game-over? (make-minmax-move board)))))
+            
+    (testing "HumanPlayer marks user's move when going first"
+        (let [board (gen-board)
+              board-after (board-with-spaces [0] 0)
+              io (new-test-io "0")]
+              
+            (is (= (make-move (new-human-player io) board) board-after))))
+    
+    (testing "HumanPlayer marks user's move when going second"
+        (let [board (board-with-spaces [0] 0)
+              board-after (-> (gen-board)
+                              (set-space 0 0)
+                              (set-space 4 1))
+              io (new-test-io "4")]
+          
+            (is (= (make-move (new-human-player io) board) board-after)))))

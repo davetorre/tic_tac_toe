@@ -1,7 +1,11 @@
 (ns tic-tac-toe.player
-    (:require [tic-tac-toe.board :refer :all]
+    (:require [tic-tac-toe.io    :refer :all]
+              [tic-tac-toe.board :refer :all]
               [tic-tac-toe.rules :refer :all]))
-    
+
+(defprotocol Player
+    (make-move [this board]))
+
 (defn occurences [board token]
     (count (filter #(= % token) board)))
            
@@ -11,9 +15,6 @@
         (if (<= x-count y-count)
             0
             1)))             
- 
-(defprotocol Player
-    (make-move [this board]))
     
 (defn do-weighting [score]
     (cond 
@@ -50,3 +51,26 @@
                 
 (defn new-minmax-player []
     (MinMaxPlayer.))
+    
+(defn get-human-move [io board]
+    (print-board io board)
+    (let [open-spaces (seq (get-open-spaces board))
+          user-input (prompt io (str "What's your move? " open-spaces))
+          open-spaces-strings (map #(str %) open-spaces)]
+        
+        (if (contains? (set open-spaces-strings) user-input)
+            (Integer/parseInt user-input)
+            (get-human-move io board))))
+              
+(deftype HumanPlayer [io]
+    Player
+    (make-move [this board]
+        (if (game-over? board)
+            board
+            (let [move (get-human-move io board)
+                  token (get-token board)]
+                (set-space board move token)))))
+                 
+(defn new-human-player [io]
+    (HumanPlayer. io))
+        

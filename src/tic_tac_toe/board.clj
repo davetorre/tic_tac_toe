@@ -1,4 +1,5 @@
-(ns tic-tac-toe.board)
+(ns tic-tac-toe.board
+    (:require [tic-tac-toe.io :refer :all]))
 
 (defn width-of [board]
     (let [width (Math/sqrt (count board))]
@@ -48,3 +49,15 @@
     
 (defn num-open-spaces [board]
     (count (filter nil? board)))
+    
+(defn get-player-string [token]
+    (cond 
+        (= token 0) "X"
+        (= token 1) "O"
+        :else "-"))
+    
+(defn print-board [io board]
+    (let [nice-board (map #(get-player-string %) board)
+          nice-rows (vec (get-rows nice-board))]
+
+        (doall (map #(io-print io %) nice-rows))))
