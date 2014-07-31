@@ -13,6 +13,9 @@
         (println something))
     (io-read [this]
         (read-line)))
+        
+(defn new-console-io []
+    (ConsoleIO.))
 
 (defn prompt [io question]
     (io-print io question)
@@ -29,17 +32,27 @@
           nice-rows (vec (get-rows nice-board))]
 
         (doall (map #(io-print io %) nice-rows))))
-    
+      
 (defn get-human-move [io board]
     (let [open-spaces (seq (get-open-spaces board))
           user-input (prompt io (str "What's your move? " open-spaces))
           open-spaces-strings (map #(str %) open-spaces)]
         
         (if (contains? (set open-spaces-strings) user-input)
-            (let [move (Integer/parseInt user-input)
-                  token (get-token board)]    
-                (set-space board move token))
+            (Integer/parseInt user-input)
             (get-human-move io board))))
+              
+(deftype HumanPlayer []
+    Player
+    (make-move [this io board]
+        (if (game-over? board)
+            board
+            (let [move (get-human-move io board)
+                  token (get-token board)]
+                (set-space board move token)))))
+                 
+(defn new-human-player []
+    (HumanPlayer.))
             
 (defn human-goes-first? [io]
     (let [answer (prompt io "Would you like to go first? (y/n)")
@@ -65,11 +78,11 @@
     (if (game-over? board)
         (print-game-result io board)
         (if (= turn :human)
-            (game-loop io (get-human-move io board) :cpu)
-            (game-loop io (make-move (new-minmax-player) board) :human))))  
+            (game-loop io (make-move (new-human-player) io board) :cpu)
+            (game-loop io (make-move (new-minmax-player) io board) :human))))  
        
 (defn -main [& args]
-    (let [io (ConsoleIO.)]
+    (let [io (new-console-io)]
         (if (human-goes-first? io)
             (game-loop io (gen-board) :human)
             (game-loop io (gen-board) :cpu))))

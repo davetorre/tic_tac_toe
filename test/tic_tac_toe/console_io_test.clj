@@ -19,21 +19,21 @@
         (let [io (TestIO. "Blue")]
             (is (= (prompt io "What is your favorite color?") "Blue"))))
             
-    (testing "get-human-move marks user's move when going first"
+    (testing "HumanPlayer marks user's move when going first"
         (let [board (gen-board)
               board-after (board-with-spaces [0] 0)
               io (TestIO. "0")]
               
-            (is (= (get-human-move io board) board-after))))
+            (is (= (make-move (new-human-player) io board) board-after))))
     
-    (testing "get-human-move marks user's move when going second"
+    (testing "HumanPlayer marks user's move when going second"
         (let [board (board-with-spaces [0] 0)
               board-after (-> (gen-board)
                               (set-space 0 0)
                               (set-space 4 1))
               io (TestIO. "4")]
           
-            (is (= (get-human-move io board) board-after))))
+            (is (= (make-move (new-human-player) io board) board-after))))
             
     (testing "human-goes-first? returns true if user responds Y"
         (is (human-goes-first? (TestIO. "Y"))))
