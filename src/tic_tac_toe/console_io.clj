@@ -81,7 +81,9 @@
        
 (defn -main [& args]
     (let [io (new-console-io)
-          board (gen-board)]
+          board (gen-board)
+          players [(new-human-player io) (new-minmax-player)]]
+          
         (if (human-goes-first? io)
-            (game-loop io [(new-human-player io) (new-minmax-player)] board)
-            (game-loop io [(new-minmax-player) (new-human-player io)] board))))
+            (game-loop io players board)
+            (game-loop io (reverse players) board))))
