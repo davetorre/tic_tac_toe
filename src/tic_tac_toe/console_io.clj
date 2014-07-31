@@ -34,6 +34,7 @@
         (doall (map #(io-print io %) nice-rows))))
       
 (defn get-human-move [io board]
+    (print-board io board)
     (let [open-spaces (seq (get-open-spaces board))
           user-input (prompt io (str "What's your move? " open-spaces))
           open-spaces-strings (map #(str %) open-spaces)]
@@ -65,24 +66,22 @@
             :else (human-goes-first?))))
 
 (defn print-game-result [io board]
+    (print-board io board)
     (let [token (get-winner board)
           player (get-player-string token)]
         (if token
             (io-print io (str "Game over. " player " wins!"))
             (io-print io "Game over. Draw."))))
         
-(defn game-loop [io board turn]
-    (if (= turn :human)
-        (print-board io board))
-
+(defn game-loop [io players board]
     (if (game-over? board)
         (print-game-result io board)
-        (if (= turn :human)
-            (game-loop io (make-move (new-human-player io) board) :cpu)
-            (game-loop io (make-move (new-minmax-player) board) :human))))  
+        (let [board (make-move (first players) board)]
+            (game-loop io (reverse players) board))))  
        
 (defn -main [& args]
-    (let [io (new-console-io)]
+    (let [io (new-console-io)
+          board (gen-board)]
         (if (human-goes-first? io)
-            (game-loop io (gen-board) :human)
-            (game-loop io (gen-board) :cpu))))
+            (game-loop io [(new-human-player io) (new-minmax-player)] board)
+            (game-loop io [(new-minmax-player) (new-human-player io)] board))))

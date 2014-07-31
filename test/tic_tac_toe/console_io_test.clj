@@ -46,14 +46,14 @@
               output "Game over. X wins!"
               io (TestIO. "5")]
             
-            (is (= (game-loop io board :cpu) output))))
+            (is (= (game-loop io [(new-minmax-player) (new-minmax-player)] board) output))))
             
     (testing "game-loop prints out 'Draw' if no winner"
         (let [board (cat-board)
               output "Game over. Draw."
               io (TestIO. "0")]
              
-            (is (= (game-loop io board :cpu) output)))))
+            (is (= (game-loop io [(new-minmax-player) (new-minmax-player)] board) output)))))
               
               
             
