@@ -66,7 +66,7 @@
         (print-game-result io board)
         (if (= turn :human)
             (game-loop io (get-human-move io board) :cpu)
-            (game-loop io (make-move board) :human))))  
+            (game-loop io (make-move (new-minmax-player) board) :human))))  
        
 (defn -main [& args]
     (let [io (ConsoleIO.)]
