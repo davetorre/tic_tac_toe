@@ -3,16 +3,11 @@
              [tic-tac-toe.board  :refer :all]
              [tic-tac-toe.rules  :refer :all]
              [tic-tac-toe.player :refer :all]
+             [tic-tac-toe.game   :refer :all]
              [clojure.test       :refer :all]))
 
 (defn make-minmax-move [board]
     (make-move (new-minmax-player) board))
-
-(defn play-minmax-game [board]
-    (loop [board board]
-        (if (game-over? board)
-            board
-            (recur (make-minmax-move board)))))
                          
 (deftest player-test
     
@@ -46,7 +41,9 @@
             (is (= (+ (occurences board 1) 1) (occurences result 1)))))
 
     (testing "game of two MinMaxPlayers should result in a full board, no winner"
-        (let [full-board (play-minmax-game (gen-board))]
+        (let [players [(new-minmax-player) (new-minmax-player)]
+              board (gen-board)
+              full-board (game-loop players board)]
 
             (is (= (num-open-spaces full-board) 0))
             (is (nil? (get-winner full-board)))))

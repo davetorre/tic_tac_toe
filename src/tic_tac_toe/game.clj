@@ -22,11 +22,11 @@
             (io-print io (str "Game over. " player " wins!"))
             (io-print io "Game over. Draw."))))
         
-(defn game-loop [io players board]
+(defn game-loop [players board]
     (if (game-over? board)
-        (print-game-result io board)
+        board
         (let [board (make-move (first players) board)]
-            (game-loop io (reverse players) board))))  
+            (game-loop (reverse players) board))))  
        
 (defn -main [& args]
     (let [io (new-console-io)
@@ -34,5 +34,5 @@
           players [(new-human-player io) (new-minmax-player)]]
           
         (if (human-goes-first? io)
-            (game-loop io players board)
-            (game-loop io (reverse players) board))))
+            (print-game-result io (game-loop players board))
+            (print-game-result io (game-loop (reverse players) board)))))
