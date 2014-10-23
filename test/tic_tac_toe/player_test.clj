@@ -40,6 +40,11 @@
               
             (is (= (+ (occurences board 1) 1) (occurences result 1)))))
 
+    (testing "MinMaxPlayer makes center move given board [0 - - - - - - - -]"
+        (let [board (board-with-spaces [0] 0)
+              expected [0 nil nil nil 1 nil nil nil nil]]
+            (is (= expected (make-minmax-move board)))))
+
     (testing "game of two MinMaxPlayers should result in a full board, no winner"
         (let [players [(new-minmax-player) (new-minmax-player)]
               board (gen-board)
